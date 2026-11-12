@@ -5,6 +5,21 @@
     android:layout_height="match_parent"
     android:background="#FF000000">
 
+    <!-- Optional photo (files/dream.jpg) under a dark scrim, StandBy style; hidden when there is no photo. -->
+    <ImageView
+        android:id="@+id/dreamPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/dreamScrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#4D000000"
+        android:visibility="gone" />
+
     <View
         android:id="@+id/dreamAmbient"
         android:layout_width="match_parent"
@@ -27,9 +42,11 @@
                 android:layout_height="wrap_content"
                 android:format12Hour="h:mm"
                 android:format24Hour="HH:mm"
-                android:textColor="#E6FFFFFF"
-                android:textSize="120sp"
+                android:textColor="#B3FFFFFF"
+                android:textSize="84sp"
                 android:fontFamily="@font/outfit_extralight"
+                android:shadowColor="#80000000"
+                android:shadowRadius="12"
                 android:letterSpacing="-0.04"
                 android:includeFontPadding="false" />
 
@@ -40,7 +57,7 @@
                 android:format12Hour="a"
                 android:format24Hour=""
                 android:textColor="#99FFFFFF"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:fontFamily="@font/outfit_medium"
                 android:letterSpacing="0.08"
                 android:textAllCaps="true" />
@@ -53,8 +70,8 @@
             android:layout_marginTop="4dp"
             android:format12Hour="@string/date_format"
             android:format24Hour="@string/date_format"
-            android:textColor="#8CFFFFFF"
-            android:textSize="18sp"
+            android:textColor="#99FFFFFF"
+            android:textSize="15sp"
             android:fontFamily="@font/outfit_regular"
             android:letterSpacing="0.14"
             android:textAllCaps="true" />

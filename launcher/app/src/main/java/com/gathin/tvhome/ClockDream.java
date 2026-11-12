@@ -2,11 +2,16 @@ package com.gathin.tvhome;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.service.dreams.DreamService;
 import android.view.View;
+import android.widget.ImageView;
+
+import java.io.File;
 
 import java.util.Random;
 
@@ -54,6 +59,31 @@ public class ClockDream extends DreamService {
                 glow.setGradientRadius((r - l) * 0.55f));
         colorIndex = random.nextInt(PALETTE.length);
         setGlow(PALETTE[colorIndex]);
+        showPhoto(ambient);
+    }
+
+    /** files/dream.jpg (pushed next to the theme), if present, fills the screen under a dark scrim. */
+    private boolean photo;
+    private void showPhoto(View ambient) {
+        File dir = getExternalFilesDir(null);
+        File f = dir == null ? null : new File(dir, "dream.jpg");
+        if (f == null || !f.isFile()) return;
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(f.getPath(), o);
+        int sample = 1;
+        while (o.outWidth / (sample * 2) >= 1280) sample *= 2;   // the UI is 1280x720: no bigger bitmap needed
+        o = new BitmapFactory.Options();
+        o.inSampleSize = sample;
+        o.inPreferredConfig = Bitmap.Config.RGB_565;
+        Bitmap b = BitmapFactory.decodeFile(f.getPath(), o);
+        if (b == null) return;
+        ImageView iv = findViewById(R.id.dreamPhoto);
+        iv.setImageBitmap(b);
+        iv.setVisibility(View.VISIBLE);
+        findViewById(R.id.dreamScrim).setVisibility(View.VISIBLE);
+        ambient.setVisibility(View.GONE);
+        photo = true;
     }
 
     @Override
@@ -86,9 +116,17 @@ public class ClockDream extends DreamService {
         }).start();
     }
 
-    /** A random spot that keeps the whole clock on screen, with the glow centred behind it. */
+    /** With a photo: the bottom-right corner, nudged a few pixels each minute against burn-in, so the clock
+     *  never covers the people in the picture. Without one: a random spot, with the glow centred behind it. */
     private void placeClock() {
         View parent = (View) content.getParent();
+        if (photo) {
+            float d = getResources().getDisplayMetrics().density;
+            float jitter = 14 * d;
+            content.setX(parent.getWidth() - content.getWidth() - 48 * d - jitter * random.nextFloat());
+            content.setY(parent.getHeight() - content.getHeight() - 36 * d - jitter * random.nextFloat());
+            return;
+        }
         int maxX = Math.max(0, parent.getWidth() - content.getWidth());
         int maxY = Math.max(0, parent.getHeight() - content.getHeight());
         float x = maxX * (0.1f + 0.8f * random.nextFloat());

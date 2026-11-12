@@ -1,0 +1,43 @@
+# OnePlus TV 43 Y1S Edge (retail model code 43FD2A01). Reports itself as model D00, codename Dubai:
+# Google TV / Android 14, firmware UTT1.240928.001, fingerprint OnePlus/OnePlusTV/Dubai:14/UTT1.240928.001/2502240437.
+# UI 1280x720, ~0.9 GB RAM. Same board as examples/oneplus-tv-dubai.
+# Stock launcher: com.google.android.tvlauncher. Live TV app: com.heytap.tv.livetv.
+#
+# Apply:   TV_HOST=<tv ip> tools/disable.sh examples/oneplus-tv-y1s-edge-43fd2a01/debloat.txt
+# Undo:    TV_HOST=<tv ip> tools/restore.sh examples/oneplus-tv-y1s-edge-43fd2a01/debloat.txt
+# Everything is DISABLED, not uninstalled.
+#
+# Disabled before this debloat, so not listed: com.google.android.marvin.talkback.
+# Kept on purpose (owner's choice): Netflix, Prime Video, JioHotstar, YouTube, YouTube Music, Apple TV,
+# Google Assistant (katniss), Chromecast (mediashell), OnePlus Connect (com.heytap.olink) and Bluetooth
+# speaker mode, remote update service (com.heytap.oprcupgradeservice), File Browser (USB media player). Factory apps left alone.
+
+# Telemetry, ads and recommendation rows
+com.google.android.feedback
+com.google.android.tvrecommendations
+com.mediatek.android.leanbacklauncher.partnercustomizer
+com.google.android.syncadapters.calendar
+
+# OnePlus extras
+com.heytap.tv.assistant.oneplus        # OnePlus TV Assistant
+oneplus.smarthome                      # OnePlus smart home control
+# com.heytap.tv.filebrowser kept: it is also the USB video/music player
+
+# Preloaded apps not used
+com.google.android.videos              # Google TV / Play Movies
+com.google.android.play.games          # Google Play Games
+
+# Stock Google TV launcher, replaced by launcher/ (com.gathin.tvhome)
+com.google.android.tvlauncher
+
+# OnePlus OxygenPlay content page (short tap of the OnePlus button opened it; long press = power menu still works)
+com.oneplus.tv.launcher
+
+# Added 2026-11-12 after a factory reset (privacy audit + new preloads)
+com.android.adservices.api                       # Android ad measurement / Privacy Sandbox
+com.android.ondevicepersonalization.services     # on-device ad personalisation
+com.android.federatedcompute.services            # federated learning uploads for the above
+com.google.android.backdrop                      # Ambient mode photo screensaver
+com.oneplus.tv.screensaver                       # OnePlus screensaver (owner wants no screensaver)
+com.oneplus.tv.userguide                         # OnePlus user guide (preload after reset)
+com.jiostb.jiogames                              # JioGames (preload after reset)

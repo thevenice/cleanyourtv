@@ -14,3 +14,11 @@ backup/
 *.aab
 launcher/hs_err_pid*.log
 launcher/replay_pid*.log
+.bridge/
+
+# Personal photos and device backups never leave this machine
+images/
+themes/*/*.jpg
+!themes/aurora/wallpaper.jpg
+!themes/dussehra/wallpaper.jpg
+phone-redmi8/
